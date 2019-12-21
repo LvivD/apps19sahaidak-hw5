@@ -10,11 +10,15 @@ public class FlatMapIterator implements Iterator<Integer> {
 
     private Iterator<Integer> prevIterator;
     private IntToIntStreamFunction func;
-    int[] nextArr;
-    int i = 0;
-    int next;
+    private int[] nextArr;
+    private int i = 0;
+    private int next;
+    private boolean isUsed = false;
 
     public FlatMapIterator(Iterator<Integer> prevIterator, IntToIntStreamFunction func) {
+        if (isUsed) {
+            throw new RuntimeException("Stream is closed");
+        }
         prevIterator.hasNext();
         this.prevIterator = prevIterator;
         this.func = func;
@@ -23,11 +27,17 @@ public class FlatMapIterator implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return this.prevIterator.hasNext() || i < nextArr.length;
+
+        boolean res = i < nextArr.length || this.prevIterator.hasNext();
+        if (!res) {
+            isUsed = true;
+        }
+        return res;
     }
 
     @Override
     public Integer next() {
+
         if (i < nextArr.length) {
             next = nextArr[i];
             i++;

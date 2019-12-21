@@ -41,7 +41,6 @@ public class AsIntStream implements IntStream {
             sum += i;
             len += 1;
         }
-        this.iterator = new NullIterator();
         return (double) sum/len;
     }
 
@@ -54,7 +53,6 @@ public class AsIntStream implements IntStream {
                 max = i;
             }
         }
-        this.iterator = new NullIterator();
         return max;
     }
 
@@ -67,7 +65,6 @@ public class AsIntStream implements IntStream {
                 min = i;
             }
         }
-        this.iterator = new NullIterator();
         return min;
     }
 
@@ -77,7 +74,6 @@ public class AsIntStream implements IntStream {
         for (int i: toIterable()) {
             len += 1;
         }
-        this.iterator = new NullIterator();
         return len;
     }
 
@@ -88,7 +84,6 @@ public class AsIntStream implements IntStream {
         for (int i: toIterable()) {
             sum += i;
         }
-        this.iterator = new NullIterator();
         return sum;
     }
 
@@ -102,7 +97,6 @@ public class AsIntStream implements IntStream {
         for (int i: toIterable()) {
             action.accept(i);
         }
-        this.iterator = new NullIterator();
     }
 
     @Override
@@ -121,7 +115,6 @@ public class AsIntStream implements IntStream {
         for (int i: toIterable()) {
             res = op.apply(res, i);
         }
-        this.iterator = new NullIterator();
         return res;
     }
 
@@ -135,7 +128,6 @@ public class AsIntStream implements IntStream {
         for (int i = 0; i < newList.size(); i++) {
             newArray[i] = newList.get(i);
         }
-        this.iterator = new NullIterator();
         return newArray;
     }
 

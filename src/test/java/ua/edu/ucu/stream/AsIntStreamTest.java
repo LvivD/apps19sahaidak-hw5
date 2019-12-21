@@ -31,7 +31,7 @@ public class AsIntStreamTest {
         assertEquals(2.5, a, 0.0);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = RuntimeException.class)
     public void averageIfTerminal() {
         Double a = myStream.average();
         assertEquals(2.5, a, 0.0);
@@ -50,7 +50,7 @@ public class AsIntStreamTest {
         assertEquals(4, m);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = RuntimeException.class)
     public void maxIfTerminal() {
         int m = myStream.max();
         assertEquals(4, m);
@@ -69,7 +69,7 @@ public class AsIntStreamTest {
         assertEquals(1, m);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = RuntimeException.class)
     public void minIfTerminal() {
         int m = myStream.min();
         assertEquals(1, m);
@@ -89,7 +89,7 @@ public class AsIntStreamTest {
         assertEquals(4, n);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = RuntimeException.class)
     public void countIfTerminal() {
         long n = myStream.count();
         assertEquals(4, n);
@@ -116,14 +116,14 @@ public class AsIntStreamTest {
         assertEquals(10, s);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = RuntimeException.class)
     public void sumIfTerminal() {
         int s = myStream.sum();
         assertEquals(10, s);
         int ss = myStream.sum();
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = RuntimeException.class)
     public void sumAfterMap() {
         int s = myStream.map(x -> x * x).sum();
         assertEquals(1 + 4 + 9 + 16, s);
@@ -154,7 +154,7 @@ public class AsIntStreamTest {
         assertEquals(24, res);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = RuntimeException.class)
     public void reduceAsTerminal() {
         int res = myStream.reduce(1, (mul, x) -> mul *= x);
         int[] s = myStream.toArray();
@@ -169,5 +169,14 @@ public class AsIntStreamTest {
     public void toArrayEmpty() {
         IntStream newStream = AsIntStream.of();
         assertArrayEquals(new int[]{}, newStream.toArray());
+    }
+
+    @Test (expected = RuntimeException.class)
+    public void testFilterMapReduceTerminal() {
+        int res = myStream.filter(x -> x > -1).map(x -> x).reduce(0, (l, x) -> l = x);
+        assertEquals(4, res);
+        int[] a = myStream.toArray();
+//        assertArrayEquals(new int[]{}, a);
+
     }
 }
