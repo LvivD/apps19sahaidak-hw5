@@ -60,6 +60,7 @@ public class AsIntStream implements IntStream {
 
     @Override
     public Integer min() {
+        ifEmpty();
         int min = Integer.MAX_VALUE;
         for (int i: toIterable()) {
             if (i < min) {
@@ -72,8 +73,7 @@ public class AsIntStream implements IntStream {
 
     @Override
     public long count() {
-        ifEmpty();
-        int len = 0;
+        long len = 0;
         for (int i: toIterable()) {
             len += 1;
         }
