@@ -123,24 +123,41 @@ public class AsIntStreamTest {
         int ss = myStream.sum();
     }
 
-    @Test
-    public void filter() {
+    @Test (expected = IllegalArgumentException.class)
+    public void sumAfterMap() {
+        int s = myStream.map(x -> x * x).sum();
+        assertEquals(1 + 4 + 9 + 16, s);
+        int ss = myStream.sum();
     }
 
     @Test
-    public void forEach() {
+    public void filter() {
+        int[] s = myStream.filter(x -> x > 2).toArray();
+        assertArrayEquals(new int[]{3,4}, s);
     }
 
     @Test
     public void map() {
+        int[] s = myStream.map(x -> x*2).toArray();
+        assertArrayEquals(new int[]{2,4,6,8}, s);
     }
 
     @Test
     public void flatMap() {
+        int[] s = myStream.flatMap(x -> AsIntStream.of(x, x, x)).toArray();
+        assertArrayEquals(new int[]{1,1,1,2,2,2,3,3,3,4,4,4}, s);
     }
 
     @Test
     public void reduce() {
+        int res = myStream.reduce(1, (mul, x) -> mul *= x);
+        assertEquals(24, res);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void reduceAsTerminal() {
+        int res = myStream.reduce(1, (mul, x) -> mul *= x);
+        int[] s = myStream.toArray();
     }
 
     @Test
